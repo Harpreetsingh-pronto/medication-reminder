@@ -12,7 +12,7 @@ var moment = require('moment'),
 q(Medication.findOne({}).exec()).then(function (med) {
     var currentDate = moment().startOf('day'),
         numMeds,
-        i;
+        i, rxcuis = [2106,207106,152923,656659];
     while (!med && currentDate.isBefore(moment().add(1, 'year'))) {
         numMeds = Math.floor((Math.random() * 24) + 1);
         for (i = 1; i <= numMeds; i++) {
@@ -20,6 +20,7 @@ q(Medication.findOne({}).exec()).then(function (med) {
                 name: 'Medication ' + i,
                 dosage: i * 10 + ' mL',
                 time: currentDate.clone().add(i * 24 / numMeds, 'hours').toDate(),
+                rxcui: rxcuis[ (i%4) ],
                 completed: false,
                 d: {
                     c: moment().toDate()
